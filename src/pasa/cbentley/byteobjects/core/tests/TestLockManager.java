@@ -138,7 +138,7 @@ public class TestLockManager extends BentleyTestCase implements ITechObjectManag
 
    }
 
-   public void setUpMord() {
+   public void setupAbstract() {
       mod = new BOCtx(uc);
    }
 }

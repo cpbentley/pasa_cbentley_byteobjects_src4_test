@@ -98,8 +98,8 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
    }
 
    @Override
-   public void setUpMord() {
-      super.setUpMord();
+   public void setupAbstract() {
+      super.setupAbstract();
    }
 
    public void testBasic() {

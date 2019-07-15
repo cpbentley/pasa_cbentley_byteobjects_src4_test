@@ -14,7 +14,7 @@ public abstract class ByteObjectTestCase extends BentleyTestCase implements ITec
       super(b);
    }
 
-   public void setUpMord() {
+   public void setupAbstract() {
       boc = new BOCtx(uc);
    }
 

@@ -103,8 +103,8 @@ public class TestByteObjectManaged extends ByteObjectTestCase implements ITechBy
    }
 
    @Override
-   public void setUpMord() {
-      super.setUpMord();
+   public void setupAbstract() {
+      super.setupAbstract();
    }
 
    public void testBasic() {

@@ -67,8 +67,8 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
 
    }
 
-   public void setUpMord() {
-      super.setUpMord();
+   public void setupAbstract() {
+      super.setupAbstract();
 
    }
 
