@@ -211,7 +211,75 @@ public class TestByteObject extends ByteObjectTestCase implements ITechByteObjec
       assertEquals(true, bo.equalsContent(nnbo));
 
    }
+   public void testToSigned1() {
+      ByteObject bo = new ByteObject(boc, 10,10);
 
+      int index = 5;
+
+      bo.set1(index, 150);
+      assertEquals(-106, bo.get1Signed(index)); 
+      assertEquals(150, bo.get1(index)); 
+      
+      bo.set1Signed(index, -5);
+      assertEquals(-5, bo.get1Signed(index)); 
+      assertEquals(251, bo.get1(index)); 
+    
+      bo.set1Signed(index, -1);
+      assertEquals(-1, bo.get1Signed(index)); 
+      assertEquals(255, bo.get1(index)); 
+    
+      
+      bo.set1(index, 127);
+      assertEquals(127, bo.get1Signed(index)); 
+      assertEquals(127, bo.get1(index)); 
+      
+      bo.set1(index, 128);
+      assertEquals(-128, bo.get1Signed(index)); 
+      assertEquals(128, bo.get1(index)); 
+    
+      bo.set1(index, -128);
+      assertEquals(-128, bo.get1Signed(index)); 
+      assertEquals(128, bo.get1(index)); 
+      
+      bo.set1Signed(index, -128);
+      assertEquals(-128, bo.get1Signed(index)); 
+      assertEquals(128, bo.get1(index)); 
+    
+   }
+   
+   public void testToSigned2() {
+      ByteObject bo = new ByteObject(boc, 10,10);
+
+      int index = 5;
+
+      bo.set2(index, -1);
+      assertEquals(-1, bo.get2(index)); 
+      assertEquals(32769, bo.get2Unsigned(index)); 
+      
+    
+      
+      bo.set2(index, 1);
+      assertEquals(1, bo.get2(index)); 
+      assertEquals(1, bo.get2Unsigned(index)); 
+   }
+   
+   
+   public void testToSigned3() {
+      ByteObject bo = new ByteObject(boc, 10,10);
+
+      int index = 5;
+
+      bo.set3Signed(index, -1);
+      assertEquals(-1, bo.get3Signed(index)); 
+      
+      assertEquals(8388609, bo.get3Unsigned(index)); 
+      
+      bo.set3Signed(index, 1);
+      assertEquals(1, bo.get3Signed(index)); 
+      assertEquals(1, bo.get3Unsigned(index)); 
+     
+   }
+   
    public void testToByteArray1Sub() {
 
       ByteObject bo = boc.getPointerFactory().createPointer(10, 4, 128, 5);
