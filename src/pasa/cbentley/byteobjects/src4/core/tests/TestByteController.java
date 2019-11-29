@@ -1,15 +1,15 @@
-package pasa.cbentley.byteobjects.core.tests;
+package pasa.cbentley.byteobjects.src4.core.tests;
 
-import pasa.cbentley.byteobjects.core.ByteController;
-import pasa.cbentley.byteobjects.core.ByteObject;
-import pasa.cbentley.byteobjects.core.ByteObjectManaged;
-import pasa.cbentley.byteobjects.ctx.IBOTypesBOC;
-import pasa.cbentley.byteobjects.ctx.IFlagsToStringBO;
-import pasa.cbentley.byteobjects.interfaces.IJavaObjectFactory;
-import pasa.cbentley.byteobjects.sources.ByteArraySource;
-import pasa.cbentley.byteobjects.sources.MemorySource;
-import pasa.cbentley.byteobjects.sources.RootSource;
-import pasa.cbentley.byteobjects.tech.ITechByteControler;
+import pasa.cbentley.byteobjects.src4.core.ByteController;
+import pasa.cbentley.byteobjects.src4.core.ByteObject;
+import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.ctx.IBOTypesBOC;
+import pasa.cbentley.byteobjects.src4.ctx.IFlagsToStringBO;
+import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.sources.ByteArraySource;
+import pasa.cbentley.byteobjects.src4.sources.MemorySource;
+import pasa.cbentley.byteobjects.src4.sources.RootSource;
+import pasa.cbentley.byteobjects.src4.tech.ITechByteControler;
 import pasa.cbentley.core.src4.ctx.IFlagsToString;
 import pasa.cbentley.core.src4.thread.DummyProgress;
 

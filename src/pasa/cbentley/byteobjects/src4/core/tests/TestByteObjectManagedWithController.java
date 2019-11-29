@@ -1,21 +1,18 @@
-package pasa.cbentley.byteobjects.core.tests;
+package pasa.cbentley.byteobjects.src4.core.tests;
 
-import pasa.cbentley.byteobjects.core.ByteController;
-import pasa.cbentley.byteobjects.core.ByteObject;
-import pasa.cbentley.byteobjects.core.ByteObjectManaged;
-import pasa.cbentley.byteobjects.interfaces.IJavaObjectFactory;
-import pasa.cbentley.byteobjects.tech.ITechByteObject;
-import pasa.cbentley.byteobjects.tech.ITechObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.ByteController;
+import pasa.cbentley.byteobjects.src4.core.ByteObject;
+import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
 
 /**
  * 
  * @author Charles Bentley
  *
  */
-public class TestByteObjectManaged extends ByteObjectTestCase implements ITechByteObject {
+public class TestByteObjectManagedWithController extends TestByteObjectManaged {
 
-   public TestByteObjectManaged() {
-      super(true);
+   public TestByteObjectManagedWithController() {
+
    }
 
    /**
@@ -36,7 +33,9 @@ public class TestByteObjectManaged extends ByteObjectTestCase implements ITechBy
    }
 
    protected ByteObjectManaged doConfig(int dataSize, int headerSize) {
-      ByteObjectManaged b = boc.getByteObjectManagedFactory().getDefault(boc, headerSize, dataSize);
+      ByteObjectManaged b =  boc.getByteObjectManagedFactory().getDefault(boc, headerSize, dataSize);
+      ByteController bc = new ByteController(boc, getFac());
+      bc.addAgent(b);
       return b;
    }
 
@@ -98,10 +97,6 @@ public class TestByteObjectManaged extends ByteObjectTestCase implements ITechBy
       assertEquals(b.get4(61 - 4), Integer.MAX_VALUE);
    }
 
-   public IJavaObjectFactory getFac() {
-      return new HelperByteFactory(boc);
-   }
-
    @Override
    public void setupAbstract() {
       super.setupAbstract();
@@ -136,8 +131,6 @@ public class TestByteObjectManaged extends ByteObjectTestCase implements ITechBy
 
    public void testConstructorDef() {
       ByteObjectManaged bom = doConfig();
-
-      assertEquals(null, bom.getMemController());
 
       assertEquals(0, bom.get2(AGENT_OFFSET_05_CLASS_ID2));
       assertEquals(90, bom.get4(AGENT_OFFSET_16_LEN4));
@@ -197,7 +190,6 @@ public class TestByteObjectManaged extends ByteObjectTestCase implements ITechBy
       int dataSize = 16;
       ByteObjectManaged bom = doConfig(dataSize, HEADER);
 
-      assertNull(bom.getByteController());
       int offsetstart = AGENT_BASIC_SIZE + HEADER;
       assertEquals(54, offsetstart);
 

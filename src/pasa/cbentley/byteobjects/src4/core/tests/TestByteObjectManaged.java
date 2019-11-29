@@ -1,18 +1,21 @@
-package pasa.cbentley.byteobjects.core.tests;
+package pasa.cbentley.byteobjects.src4.core.tests;
 
-import pasa.cbentley.byteobjects.core.ByteController;
-import pasa.cbentley.byteobjects.core.ByteObject;
-import pasa.cbentley.byteobjects.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.ByteController;
+import pasa.cbentley.byteobjects.src4.core.ByteObject;
+import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.tech.ITechByteObject;
+import pasa.cbentley.byteobjects.src4.tech.ITechObjectManaged;
 
 /**
  * 
  * @author Charles Bentley
  *
  */
-public class TestByteObjectManagedWithController extends TestByteObjectManaged {
+public class TestByteObjectManaged extends ByteObjectTestCase implements ITechByteObject {
 
-   public TestByteObjectManagedWithController() {
-
+   public TestByteObjectManaged() {
+      super(true);
    }
 
    /**
@@ -33,9 +36,7 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
    }
 
    protected ByteObjectManaged doConfig(int dataSize, int headerSize) {
-      ByteObjectManaged b =  boc.getByteObjectManagedFactory().getDefault(boc, headerSize, dataSize);
-      ByteController bc = new ByteController(boc, getFac());
-      bc.addAgent(b);
+      ByteObjectManaged b = boc.getByteObjectManagedFactory().getDefault(boc, headerSize, dataSize);
       return b;
    }
 
@@ -97,6 +98,10 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
       assertEquals(b.get4(61 - 4), Integer.MAX_VALUE);
    }
 
+   public IJavaObjectFactory getFac() {
+      return new HelperByteFactory(boc);
+   }
+
    @Override
    public void setupAbstract() {
       super.setupAbstract();
@@ -131,6 +136,8 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
 
    public void testConstructorDef() {
       ByteObjectManaged bom = doConfig();
+
+      assertEquals(null, bom.getMemController());
 
       assertEquals(0, bom.get2(AGENT_OFFSET_05_CLASS_ID2));
       assertEquals(90, bom.get4(AGENT_OFFSET_16_LEN4));
@@ -190,6 +197,7 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
       int dataSize = 16;
       ByteObjectManaged bom = doConfig(dataSize, HEADER);
 
+      assertNull(bom.getByteController());
       int offsetstart = AGENT_BASIC_SIZE + HEADER;
       assertEquals(54, offsetstart);
 

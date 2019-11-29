@@ -1,10 +1,10 @@
-package pasa.cbentley.byteobjects.core.tests;
+package pasa.cbentley.byteobjects.src4.core.tests;
 
-import pasa.cbentley.byteobjects.core.ByteController;
-import pasa.cbentley.byteobjects.core.ByteObjectManaged;
-import pasa.cbentley.byteobjects.ctx.BOCtx;
-import pasa.cbentley.byteobjects.interfaces.IJavaObjectFactory;
-import pasa.cbentley.byteobjects.tech.ITechObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.ByteController;
+import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.ctx.BOCtx;
+import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.tech.ITechObjectManaged;
 import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.core.src4.logging.Dctx;
 
