@@ -1,3 +1,7 @@
+/*
+ * (c) 2018-2020 Charles-Philip Bentley
+ * This code is licensed under MIT license (see LICENSE.txt for details)
+ */
 package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteController;
@@ -11,14 +15,27 @@ import pasa.cbentley.byteobjects.src4.sources.MemorySource;
 import pasa.cbentley.byteobjects.src4.sources.RootSource;
 import pasa.cbentley.byteobjects.src4.tech.ITechByteControler;
 import pasa.cbentley.core.src4.ctx.IFlagsToString;
-import pasa.cbentley.core.src4.thread.DummyProgress;
 
-public class TestByteController extends ByteObjectTestCase implements ITechByteControler {
+public class TestByteController extends TestCaseByteObjectCtx implements ITechByteControler {
 
    private IJavaObjectFactory factory;
 
-   public TestByteController() {
-      super(true);
+
+   public void addError() {
+      ByteController bc = new ByteController(boc);
+      ByteObjectManaged nbom = new ByteObjectManaged(boc, bc);
+
+      try {
+         //try adding an agent identical in values but different reference
+         bc.addAgent(nbom);
+         assertFalse(true);
+      } catch (IllegalArgumentException e) {
+         assertTrue(true);
+      }
+   }
+
+   public MemorySource createSourceForName(String name) {
+      return new ByteArraySource(boc, name);
    }
 
    /**
@@ -46,6 +63,10 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       return bom;
    }
 
+   public IJavaObjectFactory getFactoryNew() {
+      return new HelperByteFactory(boc);
+   }
+
    public void helperAdd3Agents(ByteController bc) {
       int classid = 4;
       ByteObjectManaged ag1 = new ByteObjectManaged(boc);
@@ -67,71 +88,25 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
 
    }
 
-   public void setupAbstract() {
-      super.setupAbstract();
-
-   }
-
-   /**
-    * 
-    */
-   public void testLoadRoot() {
-      //no roots
-      ByteController bc = getBC();
-
-      assertEquals(4, bc.getNumLiveAgents());
-      bc.loadAllAgents();
-      assertEquals(4, bc.getNumLiveAgents());
-
-      bc.saveAgents();
-
-      System.out.println(bc);
-      byte[] serial = bc.serializeAll();
-
-      ByteController w = new ByteController(boc, getFactoryNew(), serial);
-
-      ByteObjectManaged bRoot = w.getAgentRoot();
-
-      System.out.println(w.toString());
-      assertNotNull(bRoot);
-      assertEquals(401, bRoot.get2(AGENT_OFFSET_05_CLASS_ID2));
-
-      assertEquals(4, w.getNumLiveAgents());
-   }
-
-   public void testLoadRootOut() {
-      //no roots
-      ByteController bc = getBC();
-
-      assertEquals(4, bc.getNumLiveAgents());
-      bc.loadAllAgents();
-      assertEquals(4, bc.getNumLiveAgents());
-
-      bc.saveAgents();
-
-      System.out.println(bc);
-      byte[] serial = bc.serializeAll();
-
-      ByteController w = new ByteController(boc, getFactoryNew(), serial);
-
-      ByteObjectManaged bRoot = w.getAgentRootOut();
-
-      assertEquals(null, bRoot.getByteController());
-
-      System.out.println(w.toString());
-      assertNotNull(bRoot);
-      assertEquals(401, bRoot.get2(AGENT_OFFSET_05_CLASS_ID2));
-
-      assertEquals(3, w.getNumLiveAgents());
-   }
-
    public ByteController helperGetCtrl() {
       IJavaObjectFactory fac = new HelperByteFactory(boc);
       return new ByteController(boc, fac);
    }
 
-   public IJavaObjectFactory getFactoryNew() {
-      return new HelperByteFactory(boc);
+   public void setupAbstract() {
+      super.setupAbstract();
+
+   }
+
+   public void testAdd3Agents() {
+      ByteController bc = new ByteController(boc, getFactoryNew());
+
+      helperAdd3Agents(bc);
+
+      assertEquals(3, bc.getNumLiveAgents());
+
+      System.out.println(bc.toString());
+
    }
 
    public void testAddAgents() {
@@ -147,17 +122,6 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       assertEquals(bc.getNumLiveAgents(), 1);
 
       assertEquals(bc, ag1.getByteController());
-   }
-
-   public void testAdd3Agents() {
-      ByteController bc = new ByteController(boc, getFactoryNew());
-
-      helperAdd3Agents(bc);
-
-      assertEquals(3, bc.getNumLiveAgents());
-
-      System.out.println(bc.toString());
-
    }
 
    public void testAddSameAgent() {
@@ -256,6 +220,39 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
 
    }
 
+   public void testGetController() {
+      MemorySource rss = createSourceForName("testSave");
+
+      ByteController bc = new ByteController(boc, getFactoryNew(), rss);
+
+      helperAdd3Agents(bc);
+
+      ByteObjectManaged[] ags = bc.findAgentsGroup(2);
+      System.out.println(bc);
+
+      assertEquals(3, ags.length);
+      ByteObjectManaged bo = bc.getByteController(ags);
+
+      System.out.println(bo);
+
+   }
+
+   public void testInterfaces() {
+
+      //
+
+      int[] ids = new int[] { 78, 55, 99 };
+
+      ByteObjectManaged bom = getTechDefault(boc, 45, 14, ids);
+
+      int[] ii = bom.getIDInterfaces();
+      assertEquals(3, ii.length);
+      assertEquals(78, ii[0]);
+      assertEquals(55, ii[1]);
+      assertEquals(99, ii[2]);
+
+   }
+
    /**
     * We have a complex user Trie.
     * A build version is created
@@ -295,24 +292,64 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       bc.loadAllAgents();
    }
 
-   public void testInterfaces() {
+   /**
+    * 
+    */
+   public void testLoadRoot() {
+      //no roots
+      ByteController bc = getBC();
 
-      //
+      assertEquals(4, bc.getNumLiveAgents());
+      bc.loadAllAgents();
+      assertEquals(4, bc.getNumLiveAgents());
 
-      int[] ids = new int[] { 78, 55, 99 };
+      bc.saveAgents();
 
-      ByteObjectManaged bom = getTechDefault(boc, 45, 14, ids);
+      System.out.println(bc);
+      byte[] serial = bc.serializeAll();
 
-      int[] ii = bom.getIDInterfaces();
-      assertEquals(3, ii.length);
-      assertEquals(78, ii[0]);
-      assertEquals(55, ii[1]);
-      assertEquals(99, ii[2]);
+      ByteController w = new ByteController(boc, getFactoryNew(), serial);
 
+      ByteObjectManaged bRoot = w.getAgentRoot();
+
+      System.out.println(w.toString());
+      assertNotNull(bRoot);
+      assertEquals(401, bRoot.get2(AGENT_OFFSET_05_CLASS_ID2));
+
+      assertEquals(4, w.getNumLiveAgents());
    }
 
-   public MemorySource createSourceForName(String name) {
-      return new ByteArraySource(boc, name);
+   public void testLoadRootOut() {
+      //no roots
+      ByteController bc = getBC();
+
+      assertEquals(4, bc.getNumLiveAgents());
+      bc.loadAllAgents();
+      assertEquals(4, bc.getNumLiveAgents());
+
+      bc.saveAgents();
+
+      System.out.println(bc);
+      byte[] serial = bc.serializeAll();
+
+      ByteController w = new ByteController(boc, getFactoryNew(), serial);
+
+      ByteObjectManaged bRoot = w.getAgentRootOut();
+
+      assertEquals(null, bRoot.getByteController());
+
+      System.out.println(w.toString());
+      assertNotNull(bRoot);
+      assertEquals(401, bRoot.get2(AGENT_OFFSET_05_CLASS_ID2));
+
+      assertEquals(3, w.getNumLiveAgents());
+   }
+
+   /**
+    * 
+    */
+   public void testLoop() {
+
    }
 
    public void testMultipleSources() {
@@ -330,7 +367,9 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       ByteObjectManaged tech = boc.getByteControllerFactory().getTechDefault();
       tech.set1(ITechByteControler.MEMC_OFFSET_02_MODE1, MEMC_EX_POLICY_1_MULTIPLE);
 
-      ByteController bc = new ByteController(boc, getFactoryNew(), tech, new MemorySource[] { rss1, rss2, rss3 });
+      MemorySource[] dataSources = new MemorySource[] { rss1, rss2, rss3 };
+      IJavaObjectFactory javaObjectFactory = getFactoryNew();
+      ByteController bc = new ByteController(boc, javaObjectFactory, tech, dataSources);
 
       //this should not bomb even though the stores are empty. there is nothing to load
       bc.loadAllAgents();
@@ -397,7 +436,7 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       assertEquals(true, data1.length != 0);
 
       //we should be able to create a ByteController
-      ByteController bc1 = new ByteController(boc, getFactoryNew(), data1);
+      ByteController bc1 = new ByteController(boc, javaObjectFactory, data1);
       bc1.loadAllAgents();
 
       //what if there is no root?
@@ -420,9 +459,9 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       //you cannot create a store source of the same. each app has a RootSource 
       //when you try to create an already existing source, you get the old one
       MemorySource rssTestSave2 = rs.registerMemorySource(createSourceForName("testSave2"));
-
+      assertEquals(rss2, rssTestSave2);
       //create a new byte controller and new agents on the same underlying memory source
-      ByteController bc2 = new ByteController(boc, getFactoryNew(), rssTestSave2);
+      ByteController bc2 = new ByteController(boc, javaObjectFactory, rssTestSave2);
       System.out.println("ByteController from testSave2 \n" + bc2);
       bc2.loadAllAgents();
       System.out.println("ByteController from testSave2 \n" + bc2);
@@ -437,7 +476,7 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       byte[] data3 = rs.findSource("testSave3").load();
       assertNotNull(data3);
       assertEquals(true, data3.length != 0);
-      ByteController bc3 = new ByteController(boc, getFactoryNew(), data3);
+      ByteController bc3 = new ByteController(boc, javaObjectFactory, data3);
       bc3.loadAllAgents();
 
       System.out.println("ByteController from testSave3 \n" + bc1);
@@ -446,29 +485,12 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
       //assertEquals(1, bs.getSize("testSave3"));
 
       //reload into the an object.
-      ByteController bcR = new ByteController(boc, getFactoryNew(), tech, new MemorySource[] { rss1, rss2, rss3 });
+      ByteController bcR = new ByteController(boc, javaObjectFactory, tech, dataSources);
 
       ByteObjectManaged mainR = bcR.getAgentRoot();
       assertNotNull(mainR);
 
       assertEquals(401, mainR.get2(AGENT_OFFSET_05_CLASS_ID2));
-
-   }
-
-   public void testGetController() {
-      MemorySource rss = createSourceForName("testSave");
-
-      ByteController bc = new ByteController(boc, getFactoryNew(), rss);
-
-      helperAdd3Agents(bc);
-
-      ByteObjectManaged[] ags = bc.findAgentsGroup(2);
-      System.out.println(bc);
-
-      assertEquals(3, ags.length);
-      ByteObjectManaged bo = bc.getByteController(ags);
-
-      System.out.println(bo);
 
    }
 
@@ -505,17 +527,17 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
 
       bc2.loadAllAgents();
 
-      printTest(bc2.toString());
+      logPrint(bc2.toString());
 
-      ByteObjectManaged ag12 = bc2.getAgentFromClassID(classid);
+      ByteObjectManaged bom12 = bc2.getAgentFromClassID(classid);
 
-      assertNotNull(ag12);
+      assertNotNull(bom12);
 
-      printTest("Root " + agent1.toString());
-      printTest("Serialized " + ag12.toString());
+      logPrint("Root " + agent1.toString());
+      logPrint("Serialized " + bom12.toString());
       //to test we must set the bytecontroller flag to zero
-      ag12.set1(AGENT_OFFSET_03_FLAGZ_1, 0);
-      assertTrue(ag12.equalsContent(agent1));
+      bom12.set1(AGENT_OFFSET_03_FLAGZ_1, 0);
+      assertTrue(bom12.equalsContent(agent1));
    }
 
    /**
@@ -565,27 +587,7 @@ public class TestByteController extends ByteObjectTestCase implements ITechByteC
 
       assertEquals(bc.getNumLiveAgents(), 1);
 
-      printTest(bc.toString());
-
-   }
-
-   public void addError() {
-      ByteController bc = new ByteController(boc);
-      ByteObjectManaged nbom = new ByteObjectManaged(boc, bc);
-
-      try {
-         //try adding an agent identical in values but different reference
-         bc.addAgent(nbom);
-         assertFalse(true);
-      } catch (IllegalArgumentException e) {
-         assertTrue(true);
-      }
-   }
-
-   /**
-    * 
-    */
-   public void testLoop() {
+      logPrint(bc.toString());
 
    }
 }

@@ -1,3 +1,7 @@
+/*
+ * (c) 2018-2020 Charles-Philip Bentley
+ * This code is licensed under MIT license (see LICENSE.txt for details)
+ */
 package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteController;
@@ -11,9 +15,6 @@ import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
  */
 public class TestByteObjectManagedWithController extends TestByteObjectManaged {
 
-   public TestByteObjectManagedWithController() {
-
-   }
 
    /**
     * Default of 50 DataSize
@@ -42,7 +43,7 @@ public class TestByteObjectManagedWithController extends TestByteObjectManaged {
    protected void doCopyTo(ByteObjectManaged b) {
       //should 
       assertEquals(40, b.get2(AGENT_OFFSET_13_LEN_HEADER2));
-      assertEquals(50, b.get2(AGENT_OFFSET_14_LEN_DATA_4));
+      assertEquals(50, b.get4(AGENT_OFFSET_14_LEN_DATA_4));
 
       assertEquals(90, b.getLength());
 
