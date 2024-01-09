@@ -67,11 +67,21 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
       //shorter
       p.setDynMaxFixedString(INDEX_STRING_2, 4, "Hi");
       assertEquals("Hi", p.getVarCharString(INDEX_STRING_2, 5));
-      
-      
 
    }
 
+   public void testString() {
+      int type = 10;
+      int size = 30;
+      ByteObject p = new ByteObject(boc, type, size);
+     
+      int INDEX_STRING = 21;
+      
+      p.setString(INDEX_STRING, "Max");
+      
+      assertEquals("Max", p.getNumSizePrefixedString(INDEX_STRING));
+ 
+   }
    public void testSerializationSub() {
       int mainSize = 50;
       ByteObject p = new ByteObject(boc, 61, mainSize);
