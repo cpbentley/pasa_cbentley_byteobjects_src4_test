@@ -5,11 +5,11 @@
 package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IBOAgentManaged;
 import pasa.cbentley.byteobjects.src4.ctx.BOCtx;
-import pasa.cbentley.byteobjects.src4.tech.ITechObjectManaged;
 import pasa.cbentley.testing.engine.TestCaseBentley;
 
-public class TestLockManager extends TestCaseBentley implements ITechObjectManaged {
+public class TestLockManager extends TestCaseBentley implements IBOAgentManaged {
    boolean       debugLock = false;
 
    final Integer lock      = new Integer(4);

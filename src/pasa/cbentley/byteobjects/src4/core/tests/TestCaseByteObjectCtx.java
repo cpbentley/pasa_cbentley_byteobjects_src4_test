@@ -6,15 +6,15 @@ package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteControllerFactory;
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IByteObject;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IBOAgentManaged;
 import pasa.cbentley.byteobjects.src4.ctx.BOCtx;
-import pasa.cbentley.byteobjects.src4.extra.PointerFactory;
-import pasa.cbentley.byteobjects.src4.functions.AcceptorFactory;
-import pasa.cbentley.byteobjects.src4.functions.ActionFactory;
-import pasa.cbentley.byteobjects.src4.tech.ITechByteObject;
-import pasa.cbentley.byteobjects.src4.tech.ITechObjectManaged;
+import pasa.cbentley.byteobjects.src4.objects.function.AcceptorFactory;
+import pasa.cbentley.byteobjects.src4.objects.function.ActionFactory;
+import pasa.cbentley.byteobjects.src4.objects.pointer.PointerFactory;
 import pasa.cbentley.testing.engine.TestCaseBentley;
 
-public abstract class TestCaseByteObjectCtx extends TestCaseBentley implements ITechByteObject, ITechObjectManaged {
+public abstract class TestCaseByteObjectCtx extends TestCaseBentley implements IByteObject, IBOAgentManaged {
 
    protected BOCtx                 boc;
 

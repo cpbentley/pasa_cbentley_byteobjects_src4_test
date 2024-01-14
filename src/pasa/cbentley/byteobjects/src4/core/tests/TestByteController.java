@@ -7,16 +7,16 @@ package pasa.cbentley.byteobjects.src4.core.tests;
 import pasa.cbentley.byteobjects.src4.core.ByteController;
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IBOByteControler;
 import pasa.cbentley.byteobjects.src4.ctx.IBOTypesBOC;
-import pasa.cbentley.byteobjects.src4.ctx.IFlagsToStringBO;
-import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.ctx.IToStringFlagsBO;
 import pasa.cbentley.byteobjects.src4.sources.ByteArraySource;
 import pasa.cbentley.byteobjects.src4.sources.MemorySource;
 import pasa.cbentley.byteobjects.src4.sources.RootSource;
-import pasa.cbentley.byteobjects.src4.tech.ITechByteControler;
-import pasa.cbentley.core.src4.ctx.IFlagsToString;
+import pasa.cbentley.core.src4.ctx.IToStringFlags;
 
-public class TestByteController extends TestCaseByteObjectCtx implements ITechByteControler {
+public class TestByteController extends TestCaseByteObjectCtx implements IBOByteControler {
 
    private IJavaObjectFactory factory;
 
@@ -355,8 +355,8 @@ public class TestByteController extends TestCaseByteObjectCtx implements ITechBy
    public void testMultipleSources() {
 
       //for this method we want those debug flags
-      uc.toStringSetToStringFlag(IFlagsToString.FLAG_DATA_01_SUCCINT, true);
-      boc.toStringSetToStringFlag(IFlagsToStringBO.TOSTRING_FLAG_4_BYTEOBJECT_1LINE, true);
+      uc.toStringSetToStringFlag(IToStringFlags.FLAG_DATA_01_SUCCINT, true);
+      boc.toStringSetToStringFlag(IToStringFlagsBO.TOSTRING_FLAG_4_BYTEOBJECT_1LINE, true);
 
       RootSource rs = boc.getRootSource();
       //the order of the source is unknown. the root might be in rss3
@@ -365,7 +365,7 @@ public class TestByteController extends TestCaseByteObjectCtx implements ITechBy
       MemorySource rss3 = rs.registerMemorySource(createSourceForName("testSave3"));
 
       ByteObjectManaged tech = boc.getByteControllerFactory().getTechDefault();
-      tech.set1(ITechByteControler.MEMC_OFFSET_02_MODE1, MEMC_EX_POLICY_1_MULTIPLE);
+      tech.set1(IBOByteControler.MEMC_OFFSET_02_MODE1, MEMC_EX_POLICY_1_MULTIPLE);
 
       MemorySource[] dataSources = new MemorySource[] { rss1, rss2, rss3 };
       IJavaObjectFactory javaObjectFactory = getFactoryNew();

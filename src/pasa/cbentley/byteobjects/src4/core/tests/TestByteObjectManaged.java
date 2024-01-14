@@ -7,15 +7,15 @@ package pasa.cbentley.byteobjects.src4.core.tests;
 import pasa.cbentley.byteobjects.src4.core.ByteController;
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
-import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
-import pasa.cbentley.byteobjects.src4.tech.ITechByteObject;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IByteObject;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IJavaObjectFactory;
 
 /**
  * 
  * @author Charles Bentley
  *
  */
-public class TestByteObjectManaged extends TestCaseByteObjectCtx implements ITechByteObject {
+public class TestByteObjectManaged extends TestCaseByteObjectCtx implements IByteObject {
 
 
    /**

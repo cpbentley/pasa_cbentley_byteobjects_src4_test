@@ -6,13 +6,13 @@ package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteController;
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IJavaObjectFactory;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IBOAgentManaged;
 import pasa.cbentley.byteobjects.src4.ctx.BOCtx;
-import pasa.cbentley.byteobjects.src4.interfaces.IJavaObjectFactory;
-import pasa.cbentley.byteobjects.src4.tech.ITechObjectManaged;
 import pasa.cbentley.core.src4.ctx.UCtx;
 import pasa.cbentley.core.src4.logging.Dctx;
 
-public class HelperByteFactory implements IJavaObjectFactory, ITechObjectManaged {
+public class HelperByteFactory implements IJavaObjectFactory, IBOAgentManaged {
 
    private BOCtx boc;
 

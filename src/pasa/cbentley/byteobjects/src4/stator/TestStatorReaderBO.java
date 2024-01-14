@@ -1,7 +1,7 @@
-package pasa.cbentley.byteobjects.src4.interfaces.tests;
+package pasa.cbentley.byteobjects.src4.stator;
 
 import pasa.cbentley.byteobjects.src4.core.tests.TestCaseByteObjectCtx;
-import pasa.cbentley.byteobjects.src4.interfaces.StatorReaderBO;
+import pasa.cbentley.byteobjects.src4.stator.StatorReaderBO;
 
 public class TestStatorReaderBO extends TestCaseByteObjectCtx {
    

@@ -6,24 +6,52 @@ package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.core.LitteralManager;
+import pasa.cbentley.byteobjects.src4.core.interfaces.IByteObject;
 import pasa.cbentley.byteobjects.src4.ctx.BOCtx;
 import pasa.cbentley.byteobjects.src4.ctx.IBOTypesBOC;
-import pasa.cbentley.byteobjects.src4.extra.PointerFactory;
-import pasa.cbentley.byteobjects.src4.tech.ITechByteObject;
-import pasa.cbentley.byteobjects.src4.tech.ITechPointer;
+import pasa.cbentley.byteobjects.src4.objects.pointer.IBOPointer;
+import pasa.cbentley.byteobjects.src4.objects.pointer.PointerFactory;
+import pasa.cbentley.core.src4.ctx.IConfigU;
 import pasa.cbentley.core.src4.ctx.UCtx;
 
 import pasa.cbentley.core.src4.io.BADataIS;
 import pasa.cbentley.core.src4.io.BADataOS;
+import pasa.cbentley.core.src4.logging.IDLogConfig;
+import pasa.cbentley.core.src4.logging.ILogConfigurator;
+import pasa.cbentley.core.src4.logging.ITechLvl;
 import pasa.cbentley.core.src4.io.BAByteIS;
 import pasa.cbentley.core.src4.io.BAByteOS;
 import pasa.cbentley.core.src4.structs.IntToObjects;
+import pasa.cbentley.testing.engine.ConfigUTest;
 import pasa.cbentley.testing.engine.TestCaseBentley;
 
-public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteObject {
+public class TestByteObject extends TestCaseByteObjectCtx implements IByteObject, IBOTypesBOC {
 
    public TestByteObject() {
-      setFlagHideSystemOutTrue();
+      setTestFlag(TEST_FLAG_01_PRINT_ANYWAYS, false);
+      setTestFlag(TEST_FLAG_03_HIDE_OUT_SUCCESSES, false);
+      setTestFlag(TEST_FLAG_05_SHOW_OUT_INIT, false);
+      setTestFlag(TEST_FLAG_08_DEBUG_METHOD_NAMES, false);
+
+   }
+
+   protected IConfigU createConfigU() {
+      ConfigUTest configTest = new ConfigUTest();
+      configTest.setLogConfigurator(new ILogConfigurator() {
+
+         public void apply(IDLogConfig log) {
+
+            log.setLevelGlobal(ITechLvl.LVL_03_FINEST);
+            log.setFlagTag(FLAG_17_PRINT_TEST, true);
+            log.setFlagTag(FLAG_08_PRINT_EXCEPTION, true);
+            log.setFlagTag(FLAG_25_PRINT_NULL, true);
+
+            log.setFlagTag(FLAG_09_PRINT_FLOW, false);
+            log.setFlagTag(FLAG_20_PRINT_INIT, false);
+         }
+      });
+
+      return configTest;
    }
 
    public void testSetValueBits() {
@@ -50,23 +78,26 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
    }
 
    public void testSetDynMaxFixedString() {
-      int type = 10;
+      int type = TYPE_010_POINTER;
       int size = 30;
-      ByteObject p = new ByteObject(boc, type, size);
+      ByteObject bo = new ByteObject(boc, type, size);
       int INDEX_45 = 10;
-      p.set1(INDEX_45, 45);
+      bo.set1(INDEX_45, 45);
 
       int INDEX_STRING = 11;
       //shorter
-      p.setDynMaxFixedString(INDEX_STRING, 5, "Bonjour");
+      bo.setDynMaxFixedString(INDEX_STRING, 5, "Bonjour");
 
-      assertEquals("Bonjo", p.getVarCharString(INDEX_STRING, 5));
-      
+      assertEquals("Bonjo", bo.getVarCharString(INDEX_STRING, 5));
+
+      //#debug
+      toDLog().pTest("", bo, TestByteObject.class, "testSetDynMaxFixedString", LVL_05_FINE, false);
+
       //longer
       int INDEX_STRING_2 = 21;
       //shorter
-      p.setDynMaxFixedString(INDEX_STRING_2, 4, "Hi");
-      assertEquals("Hi", p.getVarCharString(INDEX_STRING_2, 5));
+      bo.setDynMaxFixedString(INDEX_STRING_2, 4, "Hi");
+      assertEquals("Hi", bo.getVarCharString(INDEX_STRING_2, 5));
 
    }
 
@@ -74,14 +105,15 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
       int type = 10;
       int size = 30;
       ByteObject p = new ByteObject(boc, type, size);
-     
+
       int INDEX_STRING = 21;
-      
+
       p.setString(INDEX_STRING, "Max");
-      
+
       assertEquals("Max", p.getNumSizePrefixedString(INDEX_STRING));
- 
+
    }
+
    public void testSerializationSub() {
       int mainSize = 50;
       ByteObject p = new ByteObject(boc, 61, mainSize);
@@ -150,8 +182,8 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
 
    public void testConstructorType() {
       int type = 3;
-      int size = ITechByteObject.A_OBJECT_BASIC_SIZE + 5;
-      int START = ITechByteObject.A_OBJECT_BASIC_SIZE;
+      int size = IByteObject.A_OBJECT_BASIC_SIZE + 5;
+      int START = IByteObject.A_OBJECT_BASIC_SIZE;
       int INDEX_VALUE_2_BYTES = START + 1;
       ByteObject bo = new ByteObject(boc, type, size);
 
@@ -494,7 +526,7 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
 
       //#debug
       toDLog().pTest("", bo, TestByteObject.class, "testBasicVersioning", LVL_05_FINE, false);
-      
+
       bo.setVersioning(true);
 
       //#debug
@@ -505,11 +537,11 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
       assertEquals(0, bo.getVersion());
       assertEquals(0, bo.getVersion());
 
-      bo.setValue(ITechPointer.POINTER_OFFSET_05_TYPE_NUM1, 4, 1);
+      bo.setValue(IBOPointer.POINTER_OFFSET_05_TYPE_NUM1, 4, 1);
 
       assertEquals(1, bo.getVersion());
 
-      bo.setValue(ITechPointer.POINTER_OFFSET_05_TYPE_NUM1, 5, 1);
+      bo.setValue(IBOPointer.POINTER_OFFSET_05_TYPE_NUM1, 5, 1);
 
       assertEquals(2, bo.getVersion());
 
@@ -517,24 +549,24 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
 
       assertEquals(2, bo.getVersion());
 
-      bo.setFlag(ITechPointer.POINTER_OFFSET_01_FLAG, 8, true);
+      bo.setFlag(IBOPointer.POINTER_OFFSET_01_FLAG, 8, true);
 
       checkPointer(bo);
 
       assertEquals(3, bo.getVersion());
 
-      assertEquals(true, bo.hasFlag(ITechPointer.POINTER_OFFSET_01_FLAG, 8));
+      assertEquals(true, bo.hasFlag(IBOPointer.POINTER_OFFSET_01_FLAG, 8));
 
       //assertEquals(12, bo.getSuffixVersioningOffset());
-      assertEquals(ITechPointer.POINTER_BASIC_SIZE + ITechByteObject.VERSION_BYTE_SIZE, bo.getLength());
+      assertEquals(IBOPointer.POINTER_BASIC_SIZE + IByteObject.VERSION_BYTE_SIZE, bo.getLength());
 
       assertEquals(3, bo.getVersion());
 
       bo.setIntraReference(6);
 
-      assertEquals(ITechPointer.POINTER_BASIC_SIZE, bo.getSuffixVersioningOffset());
-      assertEquals(ITechPointer.POINTER_BASIC_SIZE + ITechByteObject.VERSION_BYTE_SIZE, bo.getSuffixIntraOffset());
-      assertEquals(ITechPointer.POINTER_BASIC_SIZE + ITechByteObject.VERSION_BYTE_SIZE + ITechByteObject.INTRA_REF_BYTE_SIZE, bo.getLength());
+      assertEquals(IBOPointer.POINTER_BASIC_SIZE, bo.getSuffixVersioningOffset());
+      assertEquals(IBOPointer.POINTER_BASIC_SIZE + IByteObject.VERSION_BYTE_SIZE, bo.getSuffixIntraOffset());
+      assertEquals(IBOPointer.POINTER_BASIC_SIZE + IByteObject.VERSION_BYTE_SIZE + IByteObject.INTRA_REF_BYTE_SIZE, bo.getLength());
 
       assertEquals(3, bo.getVersion());
 
@@ -542,7 +574,7 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
 
       checkPointer(bo);
 
-      bo.setFlag(ITechPointer.POINTER_OFFSET_01_FLAG, 4, true);
+      bo.setFlag(IBOPointer.POINTER_OFFSET_01_FLAG, 4, true);
 
       assertEquals(4, bo.getVersion());
 
@@ -553,10 +585,10 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
    }
 
    private void checkPointer(ByteObject bo) {
-      assertEquals(-135, bo.get2(ITechPointer.POINTER_OFFSET_02_OFFSET2));
-      assertEquals(4, bo.get1(ITechPointer.POINTER_OFFSET_03_SIZE_OR_FLAG1));
-      assertEquals(128, bo.get1(ITechPointer.POINTER_OFFSET_04_TYPE1));
-      assertEquals(5, bo.get1(ITechPointer.POINTER_OFFSET_05_TYPE_NUM1));
+      assertEquals(-135, bo.get2(IBOPointer.POINTER_OFFSET_02_OFFSET2));
+      assertEquals(4, bo.get1(IBOPointer.POINTER_OFFSET_03_SIZE_OR_FLAG1));
+      assertEquals(128, bo.get1(IBOPointer.POINTER_OFFSET_04_TYPE1));
+      assertEquals(5, bo.get1(IBOPointer.POINTER_OFFSET_05_TYPE_NUM1));
    }
 
    public void testSetByteObjects() throws Exception {
@@ -569,7 +601,7 @@ public class TestByteObject extends TestCaseByteObjectCtx implements ITechByteOb
       assertEquals(ar, p.getSubs());
 
       p.setImmutable();
-      
+
       ByteObject[] ar2 = new ByteObject[2];
       try {
          p.setByteObjects(ar2);
