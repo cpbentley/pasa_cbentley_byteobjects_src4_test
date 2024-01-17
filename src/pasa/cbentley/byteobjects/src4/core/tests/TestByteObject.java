@@ -329,6 +329,28 @@ public class TestByteObject extends TestCaseByteObjectCtx implements IByteObject
       assertEquals(1, bo.get2Unsigned(index));
    }
 
+   public void testToDouble() {
+      ByteObject bo = new ByteObject(boc, 10, 10);
+
+      int index = 1;
+
+      double f = 453.3478998;
+      bo.set8Double(index, f);
+
+      assertEquals(f, bo.get8Double(index));
+   }
+
+   public void testToFloat() {
+      ByteObject bo = new ByteObject(boc, 10, 10);
+
+      int index = 5;
+
+      float f = 453.34f;
+      bo.set4Float(index, f);
+
+      assertEquals(f, bo.get4Float(index));
+   }
+
    public void testToSigned3() {
       ByteObject bo = new ByteObject(boc, 10, 10);
 
