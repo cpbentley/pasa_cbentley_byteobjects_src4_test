@@ -5,6 +5,7 @@
 package pasa.cbentley.byteobjects.src4.core.tests;
 
 import pasa.cbentley.byteobjects.src4.core.ByteControllerFactory;
+import pasa.cbentley.byteobjects.src4.core.ByteObjectFactory;
 import pasa.cbentley.byteobjects.src4.core.ByteObjectManaged;
 import pasa.cbentley.byteobjects.src4.core.interfaces.IByteObject;
 import pasa.cbentley.byteobjects.src4.core.interfaces.IBOAgentManaged;
@@ -20,11 +21,17 @@ public abstract class TestCaseByteObjectCtx extends TestCaseBentley implements I
 
    protected PointerFactory        pointerFac;
 
+   protected PointerFactory        facPointer;
+
    protected AcceptorFactory       acceptorFac;
 
    protected ByteControllerFactory byteControllerFactory;
 
    protected ActionFactory         actionFactory;
+
+   protected ActionFactory         facAction;
+
+   protected ByteObjectFactory     facBO;
 
    public void setupAbstract() {
       boc = new BOCtx(uc);
@@ -32,6 +39,9 @@ public abstract class TestCaseByteObjectCtx extends TestCaseBentley implements I
       acceptorFac = boc.getAcceptorFactory();
       byteControllerFactory = boc.getByteControllerFactory();
       actionFactory = boc.getActionFactory();
+      facBO = boc.getByteObjectFactory();
+      facAction = actionFactory;
+      facPointer = pointerFac;
    }
 
    public ByteObjectManaged getTechDefault(BOCtx mod, int headerSize, int classid) {

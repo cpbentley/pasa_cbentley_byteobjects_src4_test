@@ -77,6 +77,14 @@ public class TestByteObject extends TestCaseByteObjectCtx implements IByteObject
 
    }
 
+   public void testGetVarCharString() {
+      ByteObject bo = new ByteObject(boc, 0, 40);
+      int varCharSize = 10; //2 chars
+      bo.setVarCharString(4, varCharSize, "Hello");
+
+      assertEquals("Hello", bo.getVarCharString(4, varCharSize));
+   }
+
    public void testSetDynMaxFixedString() {
       int type = TYPE_010_POINTER;
       int size = 30;
