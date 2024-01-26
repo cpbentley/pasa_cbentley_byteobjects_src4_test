@@ -6,6 +6,8 @@ package pasa.cbentley.byteobjects.src4.stator.tests;
 
 import pasa.cbentley.core.src4.ctx.ICtx;
 import pasa.cbentley.core.src4.stator.IStatorFactory;
+import pasa.cbentley.core.src4.stator.IStatorable;
+import pasa.cbentley.core.src4.stator.StatorReader;
 import pasa.cbentley.testing.ctx.TestCtx;
 
 public class StatorableFactoryForTests implements IStatorFactory {
@@ -25,7 +27,7 @@ public class StatorableFactoryForTests implements IStatorFactory {
       return tsc;
    }
    
-   public Object createObject(int classID) {
+   public Object createObject(StatorReader reader, int classID) {
       switch (classID) {
          default:
             return null;
@@ -40,8 +42,9 @@ public class StatorableFactoryForTests implements IStatorFactory {
       }
    }
 
-   public boolean isSupported(int classID) {
-      switch (classID) {
+   public boolean isSupported(IStatorable statorable) {
+      int id = statorable.getStatorableClassID();
+      switch (id) {
          default:
             return false;
       }
