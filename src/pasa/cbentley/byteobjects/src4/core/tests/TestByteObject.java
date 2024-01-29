@@ -44,7 +44,7 @@ public class TestByteObject extends TestCaseByteObjectCtx implements IByteObject
             log.setLevelGlobal(ITechLvl.LVL_03_FINEST);
             log.setFlagTag(FLAG_17_PRINT_TEST, true);
             log.setFlagTag(FLAG_08_PRINT_EXCEPTION, true);
-            log.setFlagTag(FLAG_25_PRINT_NULL, true);
+            log.setFlagTag(FLAG_02_PRINT_NULL, true);
 
             log.setFlagTag(FLAG_09_PRINT_FLOW, false);
             log.setFlagTag(FLAG_20_PRINT_INIT, false);
