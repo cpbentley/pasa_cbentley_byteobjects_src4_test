@@ -5,7 +5,6 @@ import java.util.Random;
 import pasa.cbentley.byteobjects.src4.core.ByteObject;
 import pasa.cbentley.byteobjects.src4.core.tests.TestCaseBOColor;
 import pasa.cbentley.byteobjects.src4.ctx.IBOTypesBOC;
-import pasa.cbentley.byteobjects.src4.ctx.IBOTypesDrw;
 import pasa.cbentley.byteobjects.src4.objects.color.ColorFunction;
 import pasa.cbentley.byteobjects.src4.objects.function.Function;
 import pasa.cbentley.core.src4.utils.ColorUtils;

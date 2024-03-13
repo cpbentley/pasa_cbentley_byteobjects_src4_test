@@ -242,7 +242,7 @@ public class TestByteObject extends TestCaseByteObjectCtx implements IByteObject
 
       int[] arU = boc.getLitteralStringOperator().getLitteralArray(bo);
 
-      assertEquals(true, boc.getUCtx().getIU().equals(ar, arU));
+      assertEquals(true, boc.getUC().getIU().equals(ar, arU));
 
       int[] ar2 = new int[] { 3, 5, 7 };
       ByteObject bo2 = boc.getLitteralIntFactory().getIntArrayBO(ar2);

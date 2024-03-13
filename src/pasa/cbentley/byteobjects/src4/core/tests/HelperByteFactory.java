@@ -73,7 +73,7 @@ public class HelperByteFactory implements IJavaObjectFactory, IBOAgentManaged {
    }
 
    public UCtx toStringGetUCtx() {
-      return boc.getUCtx();
+      return boc.getUC();
    }
 
    //#enddebug
