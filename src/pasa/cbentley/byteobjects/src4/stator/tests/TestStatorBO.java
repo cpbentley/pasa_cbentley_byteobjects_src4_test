@@ -42,13 +42,13 @@ public class TestStatorBO extends TestCaseStatorBO implements ITechStatorBO {
 
       StatorWriterBO writerPointer = sbo.getStatorWriterKeyedTo(bo, TYPE_0_MASTER);
       writerPointer.getWriter().writeInt(4564);
-      writerPointer.writeByteObject(bo55);
+      writerPointer.dataWriteByteObject(bo55);
 
       sbo.getPrefsWriter().put("hello", "today");
 
       StatorWriterBO writer = sbo.getWriterBO(TYPE_1_VIEW);
       ByteObject bo66 = facPointer.createPointer(66, 1, IBOTypesBOC.TYPE_008_LIT_ARRAY_STRING, 1);
-      writer.writeByteObject(bo66);
+      writer.dataWriteByteObject(bo66);
 
       byte[] data = sbo.serializeAll();
       StatorBO sboFuture = new StatorBO(boc);

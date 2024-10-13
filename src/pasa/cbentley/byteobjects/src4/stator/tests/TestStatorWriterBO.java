@@ -54,7 +54,7 @@ public class TestStatorWriterBO extends TestCaseStatorBO implements ITechStatorB
       
       ByteObject bo = facPointer.getPointer(45, 2);
       
-      w.writeByteObject(bo);
+      w.dataWriteByteObject(bo);
       
       //byteobject is not considered an object but a litteral
       assertEquals(0, w.getNumWrittenObject()); 
