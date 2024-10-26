@@ -14,7 +14,7 @@ import pasa.cbentley.byteobjects.src4.ctx.IToStringFlagsBO;
 import pasa.cbentley.byteobjects.src4.sources.ByteArraySource;
 import pasa.cbentley.byteobjects.src4.sources.MemorySource;
 import pasa.cbentley.byteobjects.src4.sources.RootSource;
-import pasa.cbentley.core.src4.ctx.IToStringFlags;
+import pasa.cbentley.core.src4.ctx.IToStringFlagsUC;
 
 public class TestByteController extends TestCaseByteObjectCtx implements IBOByteControler {
 
@@ -355,7 +355,7 @@ public class TestByteController extends TestCaseByteObjectCtx implements IBOByte
    public void testMultipleSources() {
 
       //for this method we want those debug flags
-      uc.toStringSetToStringFlag(IToStringFlags.FLAG_DATA_01_SUCCINT, true);
+      uc.toStringSetToStringFlag(IToStringFlagsUC.FLAG_UC_01_SUCCINT, true);
       boc.toStringSetToStringFlag(IToStringFlagsBO.TOSTRING_FLAG_4_BYTEOBJECT_1LINE, true);
 
       RootSource rs = boc.getRootSource();
